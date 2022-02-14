@@ -2,64 +2,109 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>click the beach then the character!!</title>
+        <title>Stuck in a Spaceship</title>
+        <!-- main plot 1) wake up on a space ship 2) explore + find other people + grow cultured meat (lab-grown) + eject people u dislike (makes pop. go down) 5) land on planet, 
+            unlocks another tab (like a dusty path) 6) explore, collect metal scraps, fight creatures -->
         <style>
-        #leafers {
-            position: absolute;
-            top: 210px;
-            left: 378px;
+        body {
+            text-align: center;
         }
         
-        .text-bubble {
-            position: absolute;
-            top: 160px;
-            left: 310px;
-            width: 80px;
-            height: px;
-            background: white;
-            border: solid black;
-            border-width: 1px;
+        #opening-text p {
+            font-style: italic;
+            display: none; /*make the parapgraphs not show up until they're told to later*/
         }
         
-        .sun {
-            border-radius: 40px;
-            background: yellow;
-            position: absolute;
-            width: 50px;
-            height: 50px;
+        .spaceship-tab {
+            
+        }
+
+        #history {
+            width: 300px; 
+            }
+
+        .hidden {
+            display: none;
+        }
+
+        .assets {
+            left: 300px;
+            width: 500px;
+        }
+
+        #crewmates {
+            display: none;
+        }
+
+        #inventory {
+            display: none;
+            left: 126px;
+            width: 158px;
         }
         </style>
     </head>
     <body>
+        <div id ="opening-text"> 
+                <p>hello, Z5KJF9QBSU.</p>
+                <p>we hope you've had a pleasant sleep.</p>
+                <p>please take caution exiting the chamber, your muscles are currently being revitalized.</p>
+            </div>
 
-    <img id="beach" src="https://www.kasandbox.org/programming-images/landscapes/beach-with-palm-trees.png">
+        <!-- create divs for the main three parts of the page -->
+        <div id="#history"></div>
 
-    <img src="https://www.kasandbox.org/programming-images/avatars/leafers-seedling.png" id="leafers">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    
-    <script>
-    
-    var $text = $("<div></div>");
-    var first_click = true;
-    
-        $("#leafers").on("click", function(event) {
-            if (first_click) {
-                $("#leafers").attr("src", "https://cdn.kastatic.org/third_party/javascript-khansrc/live-editor/build/images/avatars/leafers-ultimate.png")
-                $text.addClass("text-bubble").appendTo("body").html("what just happened");
-                first_click = false;
-            } else {
-                var $speech = $("<div></div>");
-                $speech.addClass("text-bubble").css("top", "210px").css("left", "250px").html("stop clicking me ive gone through enough").appendTo("body");
-            }
-        });
-        
-        $("body").on("click", function(event) {
-            console.log("body clicked");
-            var $sun = $("<div></div>");
-            $sun.addClass("sun").appendTo("body").css("position", "absolute").css("top", "40px").css("left", "40px");
-        });
-            
-    </script>
+        <div id="#zoomzoom-buttons">
+            <!--create buttons for search for food, collect water, explore, & eject crewmate-->
+        </div>
+
+        <div class=".assets">
+            <div id="#crewmates">
+                <p>Crewmates: <span id="#crewmate-number">0</span></p>
+                <p class="hidden">Ejected Crewmates: <span id="#ejected-number">0</span></p>
+            </div>
+            <div id ="#inventory">
+                <p style="font-weight:bold;">Inventory:</p>
+                <p>Cultured Meat:<span id="#meat-value">0</span></p>
+                <p>Water Bubbles:<span id="#water-value">0</span> </p>
+            </div>
+        </div>
+
+        <div class= "popup-event"></div>
     </body>
-</html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+    //create var clickNum
+    var clickNum = 0;
+    $('body').on("click", function () {
+        clickNum ++;
+        console.log(clickNum);
+    })
+    
+    // #1: after one click, make opening text appear one p at a time with time interval between: credit to https://stackoverflow.com/questions/26441507/make-paragraphs-inside-div-continuously-appear-one-by-one-using-css
+    if (clickNum = 1) {
+        $('.opening-text p:first').slideDown(500, AnimatePara);
+        //console.log("click num was 1");
+        function AnimatePara(){
+        $(this).next('p').slideDown(1500, AnimatePara);
+         }
+    } else if (clickNum = 2) {
+        $("#opening-text p").css("display", "none");
+    }
+   /* document.addEventListener("click", function(){
+        $('.opening-text p:first').slideDown(500, AnimatePara);
+    });
+    function AnimatePara(){
+        $(this).next('p').slideDown(1500, AnimatePara);
+    }*/
+
+    // #2: make opening text disappear after click
+
+    // #3: make first tab (spaceship) appear
+    // when u click search for food, adds food to inventory
+    // if food > 10, explore button is enabled
+    // explore: choose random event to occur (find a person = population number goes up, found lots of empty spaceship = nothing, )
+    // if explore # is > x, show EVENT --> pop up window for emergency --> make screen pulse red and add warning sounds (https://codepen.io/LukeAskew/pen/gabgom for pulsing color help)
+    // buttons in emergency (panic or try to come up with a plan) --> either way you crash
+
+    </script>
+    </html>
