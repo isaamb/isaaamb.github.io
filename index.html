@@ -12,7 +12,7 @@
         
         #opening-text p {
             font-style: italic;
-            display: none; /*make the parapgraphs not show up until they're told to later*/
+            visibility: hidden; /*make the paragraphs not show up until they're told to later*/
         }
         
         .spaceship-tab {
@@ -20,26 +20,39 @@
         }
 
         #history {
-            width: 300px; 
-            }
-
-        .hidden {
-            display: none;
+            position: absolute;
+            top: 10px;
+            left:3%;
+            width: 20%; 
+        }
+        
+        #zoomzoom-buttons {
+            position: absolute;
+            top: 67px;
+            left: 50%;
+            width: 45%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
         }
 
         .assets {
-            left: 300px;
-            width: 500px;
+            position: absolute;
+            top: 10px;
+            left: 67%;
+            width: 35%;
+            overflow: hidden;
+                overflow-x: hidden;
+                overflow-y: hidden;
         }
 
         #crewmates {
-            display: none;
+            
         }
 
         #inventory {
-            display: none;
-            left: 126px;
-            width: 158px;
+            /*visibility: hidden;*/
+            /*left: 184px;
+            width: 116px;*/
         }
         </style>
     </head>
@@ -51,21 +64,27 @@
             </div>
 
         <!-- create divs for the main three parts of the page -->
-        <div id="#history"></div>
+        <div id="history">we will have text here eventually</div>
 
-        <div id="#zoomzoom-buttons">
+        <div id="zoomzoom-buttons">
+        <h3 style="text-decoration: underline;">Spaceship</h3>
+        <button id="food-button">Search for Food</button> <br>
+        <button id="water-button">Collect Water</button> <br>
+        <button id="explore-button" style="visibility: hidden">Explore</button> <br>
+        <button id="eject-button" style="visibility: hidden">Eject Crewmates</button>
+        
             <!--create buttons for search for food, collect water, explore, & eject crewmate-->
         </div>
 
-        <div class=".assets">
-            <div id="#crewmates">
-                <p>Crewmates: <span id="#crewmate-number">0</span></p>
-                <p class="hidden">Ejected Crewmates: <span id="#ejected-number">0</span></p>
+        <div class="assets">
+            <div id="crewmates">
+                <p>Crewmates: <span id="crewmate-number">0</span></p>
+                <p style="visibility: hidden;">Ejected Crewmates: <span id="ejected-number">0</span></p>
             </div>
-            <div id ="#inventory">
+            <div id ="inventory">
                 <p style="font-weight:bold;">Inventory:</p>
-                <p>Cultured Meat:<span id="#meat-value">0</span></p>
-                <p>Water Bubbles:<span id="#water-value">0</span> </p>
+                <p>Cultured Meat:<span id="meat-value">0</span></p>
+                <p>Water Bubbles:<span id="water-value">0</span> </p>
             </div>
         </div>
 
@@ -81,13 +100,13 @@
     })
     
     // #1: after one click, make opening text appear one p at a time with time interval between: credit to https://stackoverflow.com/questions/26441507/make-paragraphs-inside-div-continuously-appear-one-by-one-using-css
-    if (clickNum = 1) {
+    if (clickNum === 1) {
         $('.opening-text p:first').slideDown(500, AnimatePara);
         //console.log("click num was 1");
         function AnimatePara(){
         $(this).next('p').slideDown(1500, AnimatePara);
          }
-    } else if (clickNum = 2) {
+    } else if (clickNum === 2) {
         $("#opening-text p").css("display", "none");
     }
    /* document.addEventListener("click", function(){
