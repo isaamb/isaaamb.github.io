@@ -11,12 +11,14 @@
         }
         
         #opening-text p {
+            position: absolute;
             font-style: italic;
             visibility: hidden; /*make the paragraphs not show up until they're told to later*/
         }
         
-        .spaceship-tab {
-            
+        #main-page {
+            width: 100%;
+            top: 5px;
         }
 
         #history {
@@ -50,9 +52,7 @@
         }
 
         #inventory {
-            /*visibility: hidden;*/
-            /*left: 184px;
-            width: 116px;*/
+            
         }
         </style>
     </head>
@@ -64,6 +64,7 @@
             </div>
 
         <!-- create divs for the main three parts of the page -->
+        <div id="main-page" onclick="showPage()">
         <div id="history">we will have text here eventually</div>
 
         <div id="zoomzoom-buttons">
@@ -83,12 +84,13 @@
             </div>
             <div id ="inventory">
                 <p style="font-weight:bold;">Inventory:</p>
-                <p>Cultured Meat:<span id="meat-value">0</span></p>
-                <p>Water Bubbles:<span id="water-value">0</span> </p>
+                <p>Cultured Meat: <span id="meat-value">0</span></p>
+                <p>Water Bubbles: <span id="water-value">0</span> </p>
             </div>
         </div>
 
         <div class= "popup-event"></div>
+        </div>
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
@@ -108,7 +110,28 @@
          }
     } else if (clickNum === 2) {
         $("#opening-text p").css("display", "none");
+        function showPage() {
+        var x = document.getElementById("main-page");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
     }
+    
+    var meatNum = 0;
+    var waterNum = 0;
+    
+    $("#food-button").on("click", function() {
+        meatNum++;
+        $("#meat-value").html(meatNum);
+    })
+
+    $("#water-button").on("click", function() {
+        waterNum++;
+        $("#water-value").html(waterNum);
+    })
    /* document.addEventListener("click", function(){
         $('.opening-text p:first').slideDown(500, AnimatePara);
     });
