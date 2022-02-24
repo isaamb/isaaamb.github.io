@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Stuck in a Spaceship</title>
-        <!-- main plot 1) wake up on a space ship 2) explore + find other people + grow cultured meat (lab-grown) + eject people u dislike (makes pop. go down) 5) land on planet, 
+
+<head>
+    <meta charset="utf-8">
+    <title>Stuck in a Spaceship</title>
+    <!-- main plot 1) wake up on a space ship 2) explore + find other people + grow cultured meat (lab-grown) + eject people u dislike (makes pop. go down) 5) land on planet, 
             unlocks another tab (like a dusty path) 6) explore, collect metal scraps, fight creatures -->
-        <style>
+    <style>
         body {
             text-align: center;
         }
-        
-        #opening-text p {
-            position: absolute;
-            font-style: italic;
-            visibility: hidden; /*make the paragraphs not show up until they're told to later*/
-        }
-        
+
         #main-page {
             width: 100%;
             top: 5px;
         }
 
+        #history:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(transparent 150px, white);
+        }
+
         #history {
             position: absolute;
             top: 10px;
-            left:3%;
-            width: 20%; 
+            left: 3%;
+            width: 20%;
         }
-        
+
+
         #zoomzoom-buttons {
             position: absolute;
             top: 67px;
@@ -43,23 +49,24 @@
             left: 67%;
             width: 35%;
             overflow: hidden;
-                overflow-x: hidden;
-                overflow-y: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         /* The Modal (background) */
         .modal {
-            display: none; 
+            display: none;
             position: fixed;
-            z-index: 1; /* Sit on top */
+            z-index: 1;
+            /* Sit on top */
             padding-top: 100px;
-            left: 12.5%;
+            left: 0;
             top: 0;
-            width: 75%;
-            height: 75%;
+            width: 100%;
+            height: 100%;
             overflow: auto;
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Fallback color */
         }
 
         /* Modal Content */
@@ -72,7 +79,7 @@
         }
 
         .close {
-            color: rgb(160, 160, 160);
+            color: rgb(92, 92, 92);
             font-size: 30px;
             font-weight: bold;
         }
@@ -82,28 +89,22 @@
             color: rgb(112, 112, 112);
             cursor: pointer;
         }
-        </style>
-    </head>
-    <body>
-        <div id ="opening-text"> <!-- maybe get rid of and just start it in history OR!! put it in the modal!!-->
-                <p>hello, Z5KJF9QBSU.</p>
-                <p>we hope you've had a pleasant sleep.</p>
-                <p>please take caution exiting the chamber, your muscles are currently being revitalized.</p>
-            </div>
+    </style>
+</head>
 
-        <!-- create divs for the main three parts of the page -->
-        <div id="main-page" onclick="showPage()">
-        <div id="history"><p>hello, Z5KJF9QBSU.</p>
-            <p>we hope you've had a pleasant sleep.</p>
-            <p>please take caution exiting the chamber, your muscles are currently being revitalized.</p></div>
+<body>
+    <!-- create divs for the main three parts of the page -->
+    <div id="main-page">
+        <!--onclick="showPage()" if i can get this to work-->
+        <div id="history"></div>
 
         <div id="zoomzoom-buttons">
-        <h3 style="text-decoration: underline;">Spaceship</h3>
-        <button id="food-button">Search for Food</button> <br>
-        <button id="water-button">Collect Water</button> <br>
-        <button id="explore-button" style="visibility: hidden">Explore</button> <br>
-        <button id="eject-button" style="visibility: hidden">Eject Crewmates</button>
-        
+            <h3 style="text-decoration: underline;">Spaceship</h3>
+            <button id="food-button">Search for Food</button> <br>
+            <button id="water-button">Collect Water</button> <br>
+            <button id="explore-button" style="visibility: hidden">Explore</button> <br>
+            <button id="eject-button" style="visibility: hidden">Eject Crewmates</button>
+
             <!--create buttons for search for food, collect water, explore, & eject crewmate-->
         </div>
 
@@ -112,7 +113,7 @@
                 <p>Crewmates: <span id="crewmate-number">0</span></p>
                 <p style="visibility: hidden;">Ejected Crewmates: <span id="ejected-number">0</span></p>
             </div>
-            <div id ="inventory">
+            <div id="inventory">
                 <p style="font-weight:bold;">Inventory:</p>
                 <p>Cultured Meat: <span id="meat-value">0</span></p>
                 <p>Water Bubbles: <span id="water-value">0</span> </p>
@@ -121,80 +122,65 @@
 
         <div id="popup-event" class="modal">
             <div class="modal-content">
-                <p>info</p>
+                <p id="modal-text">info</p>
                 <span class="close"><button>&times;</button></span>
             </div>
         </div>
-        </div>
-    </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
     //create var clickNum to track number of times user clicks
     var clickNum = 0;
     $('body').on("click", function () {
-        clickNum ++;
-    })
-    
-    // #1: after one click, make opening text appear one p at a time with time interval between: credit to https://stackoverflow.com/questions/26441507/make-paragraphs-inside-div-continuously-appear-one-by-one-using-css
-    if (clickNum == 1) {
-        $('.opening-text p:first').slideDown(500, AnimatePara);
-        //console.log("click num was 1");
-        function AnimatePara(){
-        $(this).next('p').slideDown(1500, AnimatePara);
-         }
-    } else if (clickNum == 2) {
-        $("#opening-text p").css("display", "none");
-        function showPage() {
-        var x = document.getElementById("main-page");
-            if (x.style.display == "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
+        $('#history p:first').slideDown(500, AnimatePara);
+        function AnimatePara() {
+            $(this).next('p').slideDown(1500, AnimatePara);
+            clickNum++;
         }
-    }
-    
+    })
+
+    var x = 0;
     var meatNum = 0;
     var waterNum = 0;
     var exploreNum = 0;
     var crewNum = 0;
-    
-    $("#food-button").on("click", function() {
+
+    $("#food-button").on("click", function () {
         meatNum++;
         $("#meat-value").html(meatNum);
     })
 
-    $("#water-button").on("click", function() {
+    $("#water-button").on("click", function () {
         waterNum++;
         $("#water-value").html(waterNum);
     })
 
-    $("#explore-button").on("click", function() {
+    $("#explore-button").on("click", function () {
         exploreNum++;
     })
-    
-    //pop-up event - credit to https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal help w modals
-    var modal = document.getElementById("popup-event"); //get the modal
-    var span = document.getElementsByClassName("close")[0]; //get the close button
-    if (meatNum == 1 && waterNum == 1) {
-        console.log("time for modal");
-        modal.style.display = "block";
-        modal.innerText = "Now that your hunger and thirst has been satiated for the time being, feel free to explore the spacecraft.";
-        $("#history").innerText = "You can explore the spacecraft";
-        $("#explore-button").css("visibility: visible");
-    }
-
-    if (exploreNum == 1) {
-
-    }
 
 
-   /* document.addEventListener("click", function(){
-        $('.opening-text p:first').slideDown(500, AnimatePara);
-    });
-    function AnimatePara(){
-        $(this).next('p').slideDown(1500, AnimatePara);
-    }*/
+    //pop-up event - credit to https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal help w modals ** prepend text to history!!
+    setInterval(function () {
+        var modal = document.getElementById("popup-event"); //get the modal
+        var span = document.getElementsByClassName("close")[0]; //get the close button
+
+        if (meatNum >= 5 && waterNum >= 5 && x == 0) {
+            console.log("time for modal");
+            $("#modal-text").text("Now that your hunger and thirst has been satiated for the time being, feel free to explore the spacecraft.");
+            modal.style.display = "block";
+            $("#history").prepend("You can explore the spacecraft");
+            $("#explore-button").css("visibility", "visible");
+            x = 1;
+        };
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    }, 1000 / 60);
+
 
     // #2: make opening text disappear after click
 
@@ -205,5 +191,6 @@
     // if explore # is > x, show EVENT --> pop up window for emergency --> make screen pulse red and add warning sounds (https://codepen.io/LukeAskew/pen/gabgom for pulsing color help)
     // buttons in emergency (panic or try to come up with a plan) --> either way you crash
 
-    </script>
-    </html>
+</script>
+
+</html>
