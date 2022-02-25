@@ -74,7 +74,7 @@
             background-color: #fefefe;
             margin: auto;
             padding: 20px;
-            border: 1px solid #888;
+            border: 2px solid rgb(63, 63, 63);
             width: 80%;
         }
 
@@ -89,13 +89,33 @@
             color: rgb(112, 112, 112);
             cursor: pointer;
         }
+
+        .emergency{
+            background-color: #222;
+            animation-name: color;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes color {
+            0% {
+                background-color: #222;
+            }
+
+            50% {
+                background-color: #c70000;
+            }
+
+            100% {
+                background-color: #222;
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- create divs for the main three parts of the page -->
-    <div id="main-page">
-        <!--onclick="showPage()" if i can get this to work-->
+    <div id="main-page" class="emergency">
         <div id="history"></div>
 
         <div id="zoomzoom-buttons">
@@ -142,6 +162,7 @@
     })
 
     var x = 0;
+    var y = 0;
     var meatNum = 0;
     var waterNum = 0;
     var exploreNum = 0;
@@ -149,16 +170,21 @@
 
     $("#food-button").on("click", function () {
         meatNum++;
-        $("#meat-value").html(meatNum);
+
     })
 
     $("#water-button").on("click", function () {
         waterNum++;
-        $("#water-value").html(waterNum);
     })
 
     $("#explore-button").on("click", function () {
         exploreNum++;
+        console.log(exploreNum);
+
+
+        y = Math.floor(Math.random() * 10);
+
+
     })
 
 
@@ -166,9 +192,9 @@
     setInterval(function () {
         var modal = document.getElementById("popup-event"); //get the modal
         var span = document.getElementsByClassName("close")[0]; //get the close button
-
+        $("#meat-value").html(meatNum);
+        $("#water-value").html(waterNum);
         if (meatNum >= 5 && waterNum >= 5 && x == 0) {
-            console.log("time for modal");
             $("#modal-text").text("Now that your hunger and thirst has been satiated for the time being, feel free to explore the spacecraft.");
             modal.style.display = "block";
             $("#history").prepend("You can explore the spacecraft");
@@ -179,6 +205,49 @@
         span.onclick = function () {
             modal.style.display = "none";
         }
+
+        /*if (exploreNum == 1 && meatNum > 0 && waterNum > 0 && x == 1) {
+            $("#modal-text").text("As you begin to look around the spacecraft, you hear a sound from another room. Curious, you decide to investigate. As you walk in the room, another person pops out of nowhere! Surprise! You aren't alone.");
+            modal.style.display = "block";
+            $("#history").prepend("You have found a crewmate <br>");
+            crewNum++;
+            $("#crewmate-number").html(crewNum);
+            x = 2;
+        }*/
+
+        if (exploreNum == 1 && x == 1) {
+            modal.style.display = "block";
+            $("#modal-text").text("As you begin to look around the spacecraft, you hear a sound from another room. Curious, you decide to investigate. As you walk in the room, another person pops out of nowhere! Surprise! You aren't alone.");
+            $("#history").prepend("You have found a crewmate <br>");
+            crewNum++;
+            $("#crewmate-number").html(crewNum);
+            x = 2;
+        }
+
+        switch (y) {
+            case 1:
+                if (meatNum >= 1) {
+                    $("#modal-text").text("ur crewmate ate ur food... don't kill them yet");
+                    modal.style.display = "block";
+                    meatNum -= (meatNum * .5).toFixed(0);
+                    y = 1000;
+                }
+                break;
+
+            case 2:
+                if (waterNum >= 1) {
+                    $("#modal-text").text("bye bye water");
+                    modal.style.display = "block";
+                    waterNum -= (waterNum * .5).toFixed(0);
+                    y = 1000;
+                }
+                break;
+
+            case 3:
+                $("#main-page").addClass("emergency");
+            break;
+        }
+
     }, 1000 / 60);
 
 
