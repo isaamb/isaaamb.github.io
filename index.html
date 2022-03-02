@@ -90,8 +90,9 @@
             cursor: pointer;
         }
 
-        .emergency{
-            background-color: #222;
+        /*https://codepen.io/LukeAskew/pen/gabgom for pulsing color*/
+        .emergency {
+            background-color: rgba(255, 255, 255, 1);
             animation-name: color;
             animation-duration: 2s;
             animation-iteration-count: infinite;
@@ -99,15 +100,15 @@
 
         @keyframes color {
             0% {
-                background-color: #222;
+                background-color: rgba(255, 255, 255, .7);
             }
 
             50% {
-                background-color: #c70000;
+                background-color: rgba(255, 0, 0, .7);
             }
 
             100% {
-                background-color: #222;
+                background-color: rgba(255, 255, 255, .7);
             }
         }
     </style>
@@ -115,7 +116,7 @@
 
 <body>
     <!-- create divs for the main three parts of the page -->
-    <div id="main-page" class="emergency">
+    <div id="main-page">
         <div id="history"></div>
 
         <div id="zoomzoom-buttons">
@@ -142,7 +143,7 @@
 
         <div id="popup-event" class="modal">
             <div class="modal-content">
-                <p id="modal-text">info</p>
+                <p id="modal-text"></p>
                 <span class="close"><button>&times;</button></span>
             </div>
         </div>
@@ -180,10 +181,7 @@
     $("#explore-button").on("click", function () {
         exploreNum++;
         console.log(exploreNum);
-
-
         y = Math.floor(Math.random() * 10);
-
 
     })
 
@@ -194,6 +192,8 @@
         var span = document.getElementsByClassName("close")[0]; //get the close button
         $("#meat-value").html(meatNum);
         $("#water-value").html(waterNum);
+        $("#crewmate-number").html(crewNum);
+
         if (meatNum >= 5 && waterNum >= 5 && x == 0) {
             $("#modal-text").text("Now that your hunger and thirst has been satiated for the time being, feel free to explore the spacecraft.");
             modal.style.display = "block";
@@ -204,16 +204,8 @@
 
         span.onclick = function () {
             modal.style.display = "none";
+            $("#popup-event").removeClass("emergency");
         }
-
-        /*if (exploreNum == 1 && meatNum > 0 && waterNum > 0 && x == 1) {
-            $("#modal-text").text("As you begin to look around the spacecraft, you hear a sound from another room. Curious, you decide to investigate. As you walk in the room, another person pops out of nowhere! Surprise! You aren't alone.");
-            modal.style.display = "block";
-            $("#history").prepend("You have found a crewmate <br>");
-            crewNum++;
-            $("#crewmate-number").html(crewNum);
-            x = 2;
-        }*/
 
         if (exploreNum == 1 && x == 1) {
             modal.style.display = "block";
@@ -244,21 +236,22 @@
                 break;
 
             case 3:
-                $("#main-page").addClass("emergency");
-            break;
+                if (crewNum >= 1) {
+                    $("#modal-text").html("OH NO SOMETHING BROKE!!! <br> Unfortunately, your crewmate sacrificed themself to fix the ship :(");
+                    crewNum -= 1;
+                } else {
+                    $("#modal-text").html("OH NO SOMETHING BROKE!!! <br> You have lost all of your supplies trying to fix the ship.");
+                    meatNum = 0;
+                    waterNum = 0;
+                }
+                modal.style.display = "block";
+                $("#popup-event").addClass("emergency");
+                y = 1000;
+                break;
         }
 
     }, 1000 / 60);
 
-
-    // #2: make opening text disappear after click
-
-    // #3: make first tab (spaceship) appear
-    // when u click search for food, adds food to inventory
-    // if food > 10, explore button is enabled
-    // explore: choose random event to occur (find a person = population number goes up, found lots of empty spaceship = nothing, )
-    // if explore # is > x, show EVENT --> pop up window for emergency --> make screen pulse red and add warning sounds (https://codepen.io/LukeAskew/pen/gabgom for pulsing color help)
-    // buttons in emergency (panic or try to come up with a plan) --> either way you crash
 
 </script>
 
