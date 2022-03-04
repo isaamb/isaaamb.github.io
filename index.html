@@ -19,7 +19,7 @@
         #history:before {
             content: '';
             width: 100%;
-            height: 100%;
+            height: 200px;
             position: absolute;
             left: 0;
             top: 0;
@@ -179,11 +179,11 @@
     })
 
     $("#explore-button").on("click", function () {
-        //if meat is 0 or water is 0 update modal message and return
+        //if meat is 0 or water is 0 send to 11th case- update modal message and keep the explore number constant
         exploreNum++;
         if (meatNum === 0 || waterNum === 0) {
-            y = 11;
-            exploreNum -=1;
+            y = 30;
+            exploreNum -= 1;
         } else if (meatNum >= 1 && waterNum >= 1 && exploreNum >= 2) {
             y = Math.floor(Math.random() * 10);
             waterNum -= 1;
@@ -216,7 +216,7 @@
         if (exploreNum == 1 && x == 1) {
             modal.style.display = "block";
             $("#modal-text").text("As you begin to look around the spacecraft, you hear a sound from another room. Curious, you decide to investigate. As you walk in the room, another person pops out of nowhere! Surprise! You aren't alone.");
-            $("#history").prepend("You have found a crewmate <br>");
+            $("#history").prepend("You have found a crewmate <br><br>");
             crewNum++;
             $("#crewmate-number").html(crewNum);
             x = 2;
@@ -225,39 +225,47 @@
 
         switch (y) {
             case 1:
-                if (meatNum >= 1) {
+                if (crewNum >= 1) {
                     $("#modal-text").text("Your crewmate ate your food... don't kill them yet");
-                    modal.style.display = "block";
-                    meatNum -= (meatNum * .5).toFixed(0);
-                    y = 1000;
+                } else {
+                    $("#modal-text").text("You got the midnight munchies and ate a lot");
                 }
+                modal.style.display = "block";
+                meatNum -= (meatNum * .5).toFixed(0);
+                y = 1000;
                 break;
 
             case 2:
-                if (waterNum >= 1) {
-                    $("#modal-text").text("You found a lovely little plant, but they looked quite dry, so you gave them some water. How kind!");
-                    modal.style.display = "block";
-                    waterNum -= (waterNum * .5).toFixed(0);
-                    y = 1000;
-                }
+                $("#modal-text").text("You found a lovely little plant, but they looked quite dry, so you gave them some water. How kind!");
+                modal.style.display = "block";
+                waterNum -= (waterNum * .5).toFixed(0);
+                y = 1000;
                 break;
 
             case 3:
                 if (crewNum >= 1) {
                     $("#modal-text").html("OH NO SOMETHING BROKE!!! <br> Unfortunately, your crewmate sacrificed themself to fix the ship :(");
+                    $("#history").prepend("Your crewmate got sucked into the vortex fixing an emergency. Next time, maybe you should help<br><br>");
                     crewNum -= 1;
                 } else {
                     $("#modal-text").html("OH NO SOMETHING BROKE!!! <br> You have lost all of your supplies trying to fix the ship.");
+                    $("#history").prepend("You lost your supplies during an emergency<br><br>");
                     meatNum = 0;
                     waterNum = 0;
                 }
                 modal.style.display = "block";
                 $("#popup-event").addClass("emergency");
-                $("#history").prepend("You had an emergency, but you're safe for now. <br>");
                 y = 1000;
                 break;
 
-            case 11:
+            case 4:
+                $("#modal-text").text("On your explorations, you've found a friend! I'm sure nothing bad will happen to them.");
+                modal.style.display = "block";
+                $("#history").prepend("You made a friend!<br><br>");
+                crewNum ++;
+                y = 1000;
+                break;
+            case 30:
                 $("#modal-text").text("Replenish your supplies to continue exploring.");
                 modal.style.display = "block";
                 y = 1000;
