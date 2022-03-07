@@ -120,6 +120,7 @@
     <div id="main-page">
         <div id="history"></div>
 
+        <!--create buttons for search for food, collect water, explore, & eject crewmate-->
         <div id="zoomzoom-buttons">
             <h3 style="text-decoration: underline;">Spaceship</h3>
             <button id="food-button">Search for Food</button> <br>
@@ -127,7 +128,6 @@
             <button id="explore-button" style="visibility: hidden">Explore</button> <br>
             <button id="eject-button" style="visibility: hidden">Eject Crewmates</button>
 
-            <!--create buttons for search for food, collect water, explore, & eject crewmate-->
         </div>
 
         <div class="assets">
@@ -141,7 +141,7 @@
                 <p>Water Bubbles: <span id="water-value">0</span> </p>
             </div>
         </div>
-
+        <!-- create space for a popup event so that events can be added -->
         <div id="popup-event" class="modal">
             <div class="modal-content">
                 <p id="modal-text"></p>
@@ -153,16 +153,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    //create var clickNum to track number of times user clicks
-    var clickNum = 0;
-    $('body').on("click", function () {
-        $('#history p:first').slideDown(500, AnimatePara);
-        function AnimatePara() {
-            $(this).next('p').slideDown(1500, AnimatePara);
-            clickNum++;
-        }
-    })
-
+    
     var x = 0;
     var y = 0;
     var meatNum = 0;
@@ -170,9 +161,9 @@
     var exploreNum = 0;
     var crewNum = 0;
 
+    //let people gather food and water on clicks
     $("#food-button").on("click", function () {
         meatNum++;
-
     })
 
     $("#water-button").on("click", function () {
@@ -193,7 +184,7 @@
         console.log(exploreNum);
     })
 
-    //pop-up event - credit to https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal help w modals ** prepend text to history!!
+    //pop-up event - credit to https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal for help w modals
     setInterval(function () {
         var modal = document.getElementById("popup-event"); //get the modal
         var span = document.getElementsByClassName("close")[0]; //get the close button
@@ -201,6 +192,7 @@
         $("#water-value").html(waterNum);
         $("#crewmate-number").html(crewNum);
 
+        //show explore button after user has 5 food and 5 water
         if (meatNum >= 5 && waterNum >= 5 && x == 0) {
             $("#modal-text").text("Now that your hunger and thirst has been satiated for the time being, feel free to explore the spacecraft.");
             modal.style.display = "block";
